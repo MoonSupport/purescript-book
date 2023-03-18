@@ -2,9 +2,10 @@
 module Data.AddressBook where
 
 import Prelude
+import Data.Maybe (Maybe(..))
 
 import Control.Plus (empty)
-import Data.List (List(..), filter, head)
+import Data.List (List(..), filter, head, null, nubByEq)
 import Data.Maybe (Maybe)
 -- ANCHOR_END: imports
 
@@ -68,3 +69,22 @@ findEntry firstName lastName = head <<< filter filterEntry
   filterEntry :: Entry -> Boolean
   filterEntry entry = entry.firstName == firstName && entry.lastName == lastName
 
+findEntryByStreet :: String -> AddressBook -> Maybe Entry
+findEntryByStreet street = head <<< filter doesEqualityStreet
+  where
+    doesEqualityStreet :: Entry -> Boolean
+    doesEqualityStreet entry = entry.address.street == street
+
+-- isInBook :: String -> String -> AddressBook -> Boolean
+-- isInBook firstName lastName book =
+--   |  Just _  -> true
+--   |  Nothing -> false
+
+isInBook :: String -> String -> AddressBook -> Boolean
+isInBook firstName lastName book
+  | findEntry firstName lastName book /= Nothing = true
+  | otherwise = false
+
+removeDuplicates :: AddressBook -> AddressBook
+removeDuplicates book =
+  nubByEq (\entry1 entry2 -> entry1.firstName == entry2.firstName && entry1.lastName == entry2.lastName) book

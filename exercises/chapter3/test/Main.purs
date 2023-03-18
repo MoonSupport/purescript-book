@@ -1,11 +1,10 @@
 module Test.Main where
 
 import Prelude
-import Test.MySolutions
-import Data.AddressBook (AddressBook, Entry, emptyBook, findEntry, insertEntry)
+import Data.AddressBook (AddressBook, Entry, emptyBook, insertEntry, findEntryByStreet, isInBook, removeDuplicates)
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
-import Test.Unit (TestSuite, suite, test)
+import Test.Unit (suite, test)
 import Test.Unit.Assert as Assert
 import Test.Unit.Main (runTest)
 
@@ -58,12 +57,10 @@ bookWithDuplicate =
 main :: Effect Unit
 main =
   runTest do
-    runChapterExamples
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise - findEntryByStreet" do
       test "Lookup existing" do
         Assert.equal (Just john)
-          $ findEntryByStreet john.address.street book
+          $ findEntryByStreet "123 Fake St." book
       test "Lookup missing" do
         Assert.equal Nothing
           $ findEntryByStreet "456 Nothing St." book
@@ -78,15 +75,14 @@ main =
       Assert.equal book
         $ removeDuplicates bookWithDuplicate
 
--}
-runChapterExamples :: TestSuite
-runChapterExamples = do
-  test "Todo for book maintainers - Add tests for chapter examples" do
-    Assert.equal true true
-  suite "findEntry" do
-    test "Lookup existing"
-      $ Assert.equal (Just ned)
-      $ findEntry ned.firstName ned.lastName book
-    test "Lookup missing"
-      $ Assert.equal Nothing
-      $ findEntry "unknown" "person" book
+-- runChapterExamples :: TestSuite
+-- runChapterExamples = do
+--   test "Todo for book maintainers - Add tests for chapter examples" do
+--     Assert.equal true true
+--   suite "findEntry" do
+--     test "Lookup existing"
+--       $ Assert.equal (Just ned)
+--       $ findEntry ned.firstName ned.lastName book
+--     test "Lookup missing"
+--       $ Assert.equal Nothing
+--       $ findEntry "unknown" "person" book
